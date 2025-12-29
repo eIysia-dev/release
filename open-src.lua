@@ -17,7 +17,7 @@ local Config = {
     LoadTime = 8,
 
     -- Main script to load after the animation finishes
-    ScriptToLoad = "https://raw.githubusercontent.com/eIysia-dev/release/refs/heads/main/script.lua", -- IMPORTANT: Replace with your actual script URL (Not Loadstring)
+    ScriptToLoad = "https://raw.githubusercontent.com/eIysia-dev/release/refs/heads/main/script.lua",
 
     -- Loading Messages & Tips displayed randomly
     Messages = {
