@@ -14,7 +14,7 @@ local Config = {
     Subtitle = "Public Version",
     LogoLetter = "S",
     ImageLogo = "", -- Paste your decal ID here. Leave blank for letter.
-    LoadTime = 8,
+    LoadTime = 3,
 
     -- Main script to load after the animation finishes
     ScriptToLoad = "https://raw.githubusercontent.com/eIysia-dev/release/refs/heads/main/script.lua",
